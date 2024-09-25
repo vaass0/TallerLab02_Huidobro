@@ -71,7 +71,7 @@ public class Registro {
                     }
                     break;
                 }
-                agregarPersona(registro,nombre,Estadocivil,edad);
+                agregarPersona(registro,nombre,edad,Estadocivil);
             } else if(a == 2) {
                 mostrarMayoresEdad(registro);
             } else if(a == 3) {
