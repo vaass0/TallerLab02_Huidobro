@@ -34,96 +34,16 @@ public class Registro {
                  }
                 }
 
-
             if(a == 1) {
-                if(hayCupo(registro)) {
-                    int indiceDisponible = obtenerUltimoEspacio(registro);
-                    String nombre;
-                    String Estadocivil;
-                    String edad; //cambio de int a string
-
-                    while(true) {
-                        try {
-                            System.out.print("Ingrese nombre: ");
-                            nombre = new Scanner(System.in).nextLine();
-                        } catch (InputMismatchException e) {
-                            System.err.println("Opción inválida");
-                            continue;
-                        }
-                        break;
-                    }
-
-                    while(true) {
-                        try {
-                            System.out.print("Ingrese estado civil: ");
-                            Estadocivil = new Scanner(System.in).nextLine();
-                        } catch (InputMismatchException e) {
-                            System.err.println("Opción inválida");
-                            continue;
-                        }
-                        break;
-                    }
-
-                    while(true) {
-                        try {
-                            System.out.print("Ingrese edad: ");
-                            edad = new Scanner(System.in).nextLine();
-                        } catch (InputMismatchException e) {
-                            System.err.println("Opción inválida");
-                            continue;
-                        }
-                        break;
-                    }
-
-                    registro[indiceDisponible][0] = nombre;
-                    registro[indiceDisponible][1] = Estadocivil;
-                    registro[indiceDisponible][2] = edad;
-                    System.out.println("Persona agregada.");
-                } else {
-                    System.out.println("No hay cupo.");
-                }
+                agregarPersona(registro);
             } else if(a == 2) {
-                int mayoresDeEdad = 0;
-
-                for (String [] persona : registro) {
-                    if (Integer.parseInt(persona[2]) >= 18) mayoresDeEdad++;
-                }
-
-                System.out.println("Hay " + mayoresDeEdad + " mayores de edad.");
+                mostrarMayoresEdad(registro);
             } else if(a == 3) {
-                int menoresDeEdad = 0;
-                // se elimina queSera ya que es innecesario y poco representativo
-
-                for (String [] persona : registro) {
-                    // se cambia las condicional para que se pueda realizar la comparacion.
-                    if (Integer.parseInt(persona[2]) < 18) menoresDeEdad++;
-                }
-
-                System.out.println("Hay " + menoresDeEdad + " menores de edad.");
+                mostrarMenoresEdad(registro);
             } else if(a == 4) {
-                int terceraEdad = 0;// se cambia la variable a una mas representativa
-
-                //se elimina el condicional de casado o soltero ya que no es necesario y se cambia a 65 el condicional de edad
-                for (String [] persona : registro) {
-                    if (Integer.parseInt(persona[2]) >= 65 ) {
-                        terceraEdad++;
-                    }
-                }
-                System.out.println("Hay " + terceraEdad + " personas de tercera edad");
+                mostrarTerceraEdad(registro);
             } else if(a == 5) {
-                //se cambio el nombre de las variables a unos mas representativos
-                int casados = 0;
-                int solteros = 0;
-                for(String[] persona : registro) {
-                    if(persona[1].equals("casado/a")) {
-                        casados++;
-                    } else if(persona[1].equals("soltero/a")) {
-                        solteros++;
-                    }
-                }
-                //las variables estaban en las posiciones incorrectas, ahora estan bien.
-                System.out.println("Hay " + casados + " casados/as.");
-                System.out.println("Hay " + solteros + " solteros/as.");
+                mostrarEstadoCivil(registro);
             } else if(a == 6) {
                 System.out.println("Programa finalizado");
             }
@@ -131,8 +51,109 @@ public class Registro {
     }
 
 //Mucha info en el main, cambiar a un metodo menu...
+    public static void mostrarEstadoCivil(String[][] registro){
+        //se cambio el nombre de las variables a unos mas representativos
+        int casados = 0;
+        int solteros = 0;
+        for(String[] persona : registro) {
+          if(persona[1] != null) {
+            if(persona[1].equals("casado/a")) {
+                casados++;
+            } else if(persona[1].equals("soltero/a")) {
+                solteros++;
+            }
+        }
+        }
+        //las variables estaban en las posiciones incorrectas, ahora estan bien.
+        System.out.println("Hay " + casados + " casados/as.");
+        System.out.println("Hay " + solteros + " solteros/as.");
+    }
+    public static void mostrarTerceraEdad(String[][] registro){
+        int terceraEdad = 0;// se cambia la variable a una mas representativa
 
+        //se elimina el condicional de casado o soltero ya que no es necesario y se cambia a 65 el condicional de edad
+        for (String [] persona : registro) {
+            if(persona[2] != null){
+              if (Integer.parseInt(persona[2]) >= 65 ) {
+                terceraEdad++;
+              }
+            }
+        }
+        System.out.println("Hay " + terceraEdad + " personas de tercera edad");
+    }
+    public static void mostrarMenoresEdad(String[][] registro){
+        int menoresDeEdad = 0;
+        // se elimina queSera ya que es innecesario y poco representativo
+        for (String [] persona : registro) {
+            // se cambia las condicional para que se pueda realizar la comparacion.
+            if(persona[2] != null){
+              if (Integer.parseInt(persona[2]) < 18){
+                menoresDeEdad++;
+               }
+            }
+        }
+        System.out.println("Hay " + menoresDeEdad + " menores de edad.");
+    }
+    public static void mostrarMayoresEdad(String[][] registro){
+        int mayoresDeEdad = 0;
 
+        for (String [] persona : registro) {
+            if(persona[2] != null){
+               if (Integer.parseInt(persona[2]) >= 18){
+                  mayoresDeEdad++;
+               }
+            }
+        }
+        System.out.println("Hay " + mayoresDeEdad + " mayores de edad.");
+    }
+    public static String [][] agregarPersona(String [][] registro){
+        if(hayCupo(registro)) {
+            int indiceDisponible = obtenerUltimoEspacio(registro);
+            String nombre;
+            String Estadocivil;
+            String edad; //cambio de int a string
+
+            while(true) {
+                try {
+                    System.out.print("Ingrese nombre: ");
+                    nombre = new Scanner(System.in).nextLine();
+                } catch (InputMismatchException e) {
+                    System.err.println("Opción inválida");
+                    continue;
+                }
+                break;
+            }
+
+            while(true) {
+                try {
+                    System.out.print("Ingrese estado civil(casado/a o soltero/a): ");
+                    Estadocivil = new Scanner(System.in).nextLine();
+                } catch (InputMismatchException e) {
+                    System.err.println("Opción inválida");
+                    continue;
+                }
+                break;
+            }
+
+            while(true) {
+                try {
+                    System.out.print("Ingrese edad: ");
+                    edad = new Scanner(System.in).nextLine();
+                } catch (InputMismatchException e) {
+                    System.err.println("Opción inválida");
+                    continue;
+                }
+                break;
+            }
+
+            registro[indiceDisponible][0] = nombre;
+            registro[indiceDisponible][1] = Estadocivil;
+            registro[indiceDisponible][2] = edad;
+            System.out.println("Persona agregada.");
+        } else {
+            System.out.println("No hay cupo.");
+        } return registro;
+    }
     public static int obtenerUltimoEspacio(String [][] registro) {
         return registro.length - espaciosDisponibles(registro);
     }
@@ -144,7 +165,7 @@ public class Registro {
     //corregir nombre de opa a espaciosDisponibles
     public static int espaciosDisponibles(String [][] registro) {
         for(int i = 0; i < registro.length; i++) {
-            if(registro[i][0].isEmpty()){
+            if(registro[i][0] == null){
                 return registro.length - i;
             }
         }
