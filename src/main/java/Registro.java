@@ -35,7 +35,43 @@ public class Registro {
                 }
 
             if(a == 1) {
-                agregarPersona(registro);
+                String nombre;
+                String Estadocivil;
+                String edad; //cambio de int a string
+
+                while(true) {
+                    try {
+                        System.out.print("Ingrese nombre: ");
+                        nombre = new Scanner(System.in).nextLine();
+                    } catch (InputMismatchException e) {
+                        System.err.println("Opción inválida");
+                        continue;
+                    }
+                    break;
+                }
+
+                while(true) {
+                    try {
+                        System.out.print("Ingrese estado civil(casado/a o soltero/a): ");
+                        Estadocivil = new Scanner(System.in).nextLine();
+                    } catch (InputMismatchException e) {
+                        System.err.println("Opción inválida");
+                        continue;
+                    }
+                    break;
+                }
+
+                while(true) {
+                    try {
+                        System.out.print("Ingrese edad: ");
+                        edad = new Scanner(System.in).nextLine();
+                    } catch (InputMismatchException e) {
+                        System.err.println("Opción inválida");
+                        continue;
+                    }
+                    break;
+                }
+                agregarPersona(registro,nombre,Estadocivil,edad);
             } else if(a == 2) {
                 mostrarMayoresEdad(registro);
             } else if(a == 3) {
@@ -106,46 +142,9 @@ public class Registro {
         }
         System.out.println("Hay " + mayoresDeEdad + " mayores de edad.");
     }
-    public static String [][] agregarPersona(String [][] registro){
+    public static String [][] agregarPersona(String [][] registro,String nombre,String edad,String Estadocivil){
         if(hayCupo(registro)) {
             int indiceDisponible = obtenerUltimoEspacio(registro);
-            String nombre;
-            String Estadocivil;
-            String edad; //cambio de int a string
-
-            while(true) {
-                try {
-                    System.out.print("Ingrese nombre: ");
-                    nombre = new Scanner(System.in).nextLine();
-                } catch (InputMismatchException e) {
-                    System.err.println("Opción inválida");
-                    continue;
-                }
-                break;
-            }
-
-            while(true) {
-                try {
-                    System.out.print("Ingrese estado civil(casado/a o soltero/a): ");
-                    Estadocivil = new Scanner(System.in).nextLine();
-                } catch (InputMismatchException e) {
-                    System.err.println("Opción inválida");
-                    continue;
-                }
-                break;
-            }
-
-            while(true) {
-                try {
-                    System.out.print("Ingrese edad: ");
-                    edad = new Scanner(System.in).nextLine();
-                } catch (InputMismatchException e) {
-                    System.err.println("Opción inválida");
-                    continue;
-                }
-                break;
-            }
-
             registro[indiceDisponible][0] = nombre;
             registro[indiceDisponible][1] = Estadocivil;
             registro[indiceDisponible][2] = edad;
