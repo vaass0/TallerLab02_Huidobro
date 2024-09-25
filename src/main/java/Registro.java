@@ -3,11 +3,11 @@ import java.util.Scanner;
 
 public class Registro {
     public static void main(String[] args) {
-
+       mostrarMenu();
     }
-    public static void menu(){
+    public static void mostrarMenu(){
         String [][] registro = new String[50][3];
-        int a; // se cambio el valor de a para que no tenga valor hasta que el usuario lo agregue...
+        int a = 0; // se cambio el valor de a por 0
 
         do {
             System.out.println("""
@@ -20,13 +20,20 @@ public class Registro {
                 6)Salir.
                 """);
 
-            do {
-                try {
+                // se elimina el do while por un while solo y se añade un verificador para las opciones
+                while(true){
+                 try {
+                    System.out.print("Ingrese opcion: ");
                     a = new Scanner(System.in).nextInt();
-                } catch (InputMismatchException e) {
+                    if( a<= 6 && a > 0){
+                        break;
+                    }
+                    System.out.println("Ingrese un opcion invalida");
+                 } catch (InputMismatchException e) {
                     System.err.println("Opción inválida");
+                 }
                 }
-            }while (a > 0 || a < 6);
+
 
             if(a == 1) {
                 if(hayCupo(registro)) {
@@ -85,49 +92,38 @@ public class Registro {
                 System.out.println("Hay " + mayoresDeEdad + " mayores de edad.");
             } else if(a == 3) {
                 int menoresDeEdad = 0;
-                int queSera = obtenerUltimoEspacio(registro);
+                // se elimina queSera ya que es innecesario y poco representativo
 
-
-
-
-                for (int i = 0; i < queSera; i++) {
-                    if (registro[i][2] < 18) menoresDeEdad++;
+                for (String [] persona : registro) {
+                    // se cambia las condicional para que se pueda realizar la comparacion.
+                    if (Integer.parseInt(persona[2]) < 18) menoresDeEdad++;
                 }
-
-
-
 
                 System.out.println("Hay " + menoresDeEdad + " menores de edad.");
             } else if(a == 4) {
-                int mmmm = 0;
+                int terceraEdad = 0;// se cambia la variable a una mas representativa
 
-
-
-
-                for (double [] persona : registro) {
-                    if (persona[2] >= 60 && persona[1].equals("casado/a")) {
-                        mmmm++;
-                    } else if(persona[2] >= 65 && persona[1].equals("soltero/a")) {
-                        mmmm++;
+                //se elimina el condicional de casado o soltero ya que no es necesario y se cambia a 65 el condicional de edad
+                for (String [] persona : registro) {
+                    if (Integer.parseInt(persona[2]) >= 65 ) {
+                        terceraEdad++;
                     }
                 }
-                System.out.println("Hay " + mmmm + " personas de tercera edad");
+                System.out.println("Hay " + terceraEdad + " personas de tercera edad");
             } else if(a == 5) {
-                int c = 0;
-                int d = 0;
-                for(double[] persona : registro) {
+                //se cambio el nombre de las variables a unos mas representativos
+                int casados = 0;
+                int solteros = 0;
+                for(String[] persona : registro) {
                     if(persona[1].equals("casado/a")) {
-                        c++;
+                        casados++;
                     } else if(persona[1].equals("soltero/a")) {
-                        d++;
+                        solteros++;
                     }
                 }
-
-
-
-
-                System.out.println("Hay " + d + " casados/as.");
-                System.out.println("Hay " + c + " solteros/as.");
+                //las variables estaban en las posiciones incorrectas, ahora estan bien.
+                System.out.println("Hay " + casados + " casados/as.");
+                System.out.println("Hay " + solteros + " solteros/as.");
             } else if(a == 6) {
                 System.out.println("Programa finalizado");
             }
@@ -137,30 +133,21 @@ public class Registro {
 //Mucha info en el main, cambiar a un metodo menu...
 
 
-    public static int obtenerUltimoEspacio(double [][] registro) {
-        return registro.length - opa(registro);
+    public static int obtenerUltimoEspacio(String [][] registro) {
+        return registro.length - espaciosDisponibles(registro);
     }
 
-
-
-
-    public static boolean hayCupo(double [][] registro) {
-        return opa(registro) != 0;
+    public static boolean hayCupo(String [][] registro) {
+        return espaciosDisponibles(registro) != 0;
     }
 
-
-
-
-    public static int opa(double [][] registro) {
+    //corregir nombre de opa a espaciosDisponibles
+    public static int espaciosDisponibles(String [][] registro) {
         for(int i = 0; i < registro.length; i++) {
-            if(registro[i][0].equals("")){
+            if(registro[i][0].isEmpty()){
                 return registro.length - i;
             }
         }
-
-
-
-
         return 0;
     }
 }
